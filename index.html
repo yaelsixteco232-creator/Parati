@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JMZ 💖</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      user-select: none;
+      position: relative;
+    }
+
+    h1 {
+      position: absolute;
+      color: #ff99cc;
+      font-size: 3em;
+      text-align: center;
+      letter-spacing: 5px;
+      text-shadow: 0 0 15px #ff4da6, 0 0 25px #ff66cc;
+      z-index: 10;
+    }
+
+    audio {
+      display: none;
+    }
+
+    /* Mensajes flotantes */
+    .mensaje {
+      position: absolute;
+      color: #ffb6c1;
+      font-weight: bold;
+      font-size: 2em;
+      text-shadow: 0 0 15px rgba(255, 0, 100, 0.8);
+      animation: flotar 2s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes flotar {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+    }
+
+    /* Lluvia de “Te amo” de fondo */
+    .lluvia {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .gota {
+      position: absolute;
+      top: -50px;
+      color: #ff66b2;
+      font-size: 1.5em;
+      opacity: 0.8;
+      text-shadow: 0 0 10px #ff33cc;
+      animation: caer 5s linear infinite;
+    }
+
+    @keyframes caer {
+      0% { transform: translateY(0); opacity: 0.8; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>JMZ 💖</h1>
+
+  <!-- Fondo de lluvia -->
+  <div class="lluvia" id="lluvia"></div>
+
+  <!-- Audio (asegúrate que el nombre coincida con tu archivo real) -->
+  <audio id="miCancion">
+    <source src="Heintentadotantotanto.mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <script>
+    const audio = document.getElementById('miCancion');
+    let reproduciendo = false;
+
+    // Reproduce música al tocar por primera vez
+    document.addEventListener('click', function (e) {
+      if (!reproduciendo) {
+        audio.play().catch(err => console.warn('Error al reproducir:', err));
+        reproduciendo = true;
+      } else {
+        crearMensaje(e.clientX, e.clientY);
+      }
+    });
+
+    // Mensajes "Te amo" al tocar
+    function crearMensaje(x, y) {
+      const msg = document.createElement('div');
+      msg.className = 'mensaje';
+      const textos = ['Te amo 💖', 'Eres mi vida 💕', 'Mi cielo 🌹', 'Mi amor eterno 💞', 'Tú y yo ❤️'];
+      msg.textContent = textos[Math.floor(Math.random() * textos.length)];
+      msg.style.left = `${x}px`;
+      msg.style.top = `${y}px`;
+      document.body.appendChild(msg);
+      setTimeout(() => msg.remove(), 2000);
+    }
+
+    // Efecto de lluvia de "Te amo"
+    const lluvia = document.getElementById('lluvia');
+    const crearLluvia = () => {
+      for (let i = 0; i < 30; i++) {
+        const gota = document.createElement('div');
+        gota.className = 'gota';
+        gota.textContent = 'TE AMO';
+        gota.style.left = Math.random() * 100 + 'vw';
+        gota.style.animationDuration = 3 + Math.random() * 5 + 's';
+        gota.style.fontSize = 1 + Math.random() * 2 + 'em';
+        lluvia.appendChild(gota);
+        setTimeout(() => gota.remove(), 8000);
+      }
+    };
+
+    setInterval(crearLluvia, 1000);
+  </script>
+
+</body>
+</html>
