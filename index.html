@@ -1,136 +1,188 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JMZ 💖</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #000;
-      font-family: 'Segoe UI', sans-serif;
-      user-select: none;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    h1 {
-      position: absolute;
-      color: #ff99cc;
-      font-size: 3em;
-      text-align: center;
-      letter-spacing: 5px;
-      text-shadow: 0 0 15px #ff4da6, 0 0 25px #ff66cc;
-      z-index: 10;
-    }
+<title>Tríptico Interactivo</title>
 
-    audio {
-      display: none;
-    }
+<style>
 
-    /* Mensajes flotantes */
-    .mensaje {
-      position: absolute;
-      color: #ffb6c1;
-      font-weight: bold;
-      font-size: 2em;
-      text-shadow: 0 0 15px rgba(255, 0, 100, 0.8);
-      animation: flotar 2s ease-out forwards;
-      pointer-events: none;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    @keyframes flotar {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
-    }
+body{
+    background:#eceff1;
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
 
-    /* Lluvia de “Te amo” de fondo */
-    .lluvia {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 1;
-    }
+.contenedor{
+    width:100%;
+    max-width:1200px;
+}
 
-    .gota {
-      position: absolute;
-      top: -50px;
-      color: #ff66b2;
-      font-size: 1.5em;
-      opacity: 0.8;
-      text-shadow: 0 0 10px #ff33cc;
-      animation: caer 5s linear infinite;
-    }
+.pagina{
+    display:none;
+    justify-content:center;
+    align-items:center;
+    animation:entrada .4s ease;
+}
 
-    @keyframes caer {
-      0% { transform: translateY(0); opacity: 0.8; }
-      100% { transform: translateY(110vh); opacity: 0; }
+.pagina.activa{
+    display:flex;
+}
+
+.pagina img{
+    max-width:100%;
+    max-height:87vh;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+
+    border-radius:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+}
+
+.botones{
+    margin-top:25px;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+button{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:hover{
+    transform:scale(1.02);
+}
+
+.contador{
+    text-align:center;
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+@keyframes entrada{
+    from{
+        opacity:0;
+        transform:translateX(30px);
     }
-  </style>
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+</style>
 </head>
 <body>
 
-  <h1>JMZ 💖</h1>
+<div class="contenedor">
 
-  <!-- Fondo de lluvia -->
-  <div class="lluvia" id="lluvia"></div>
+    <!-- PAGINA 1 -->
+    <div class="pagina activa">
+        <img src="1.jpg" alt="">
+    </div>
 
-  <!-- Audio (asegúrate que el nombre coincida con tu archivo real) -->
-  <audio id="miCancion">
-    <source src="Heintentadotantotanto.mp3" type="audio/mpeg">
-    Tu navegador no soporta el elemento de audio.
-  </audio>
+    <!-- PAGINA 2 -->
+    <div class="pagina">
+        <img src="2.jpg" alt="">
+    </div>
 
-  <script>
-    const audio = document.getElementById('miCancion');
-    let reproduciendo = false;
+    <!-- PAGINA 3 -->
+    <div class="pagina">
+        <img src="3.jpg" alt="">
+    </div>
 
-    // Reproduce música al tocar por primera vez
-    document.addEventListener('click', function (e) {
-      if (!reproduciendo) {
-        audio.play().catch(err => console.warn('Error al reproducir:', err));
-        reproduciendo = true;
-      } else {
-        crearMensaje(e.clientX, e.clientY);
-      }
+    <!-- PAGINA 4 -->
+    <div class="pagina">
+        <img src="4.jpg" alt="">
+    </div>
+
+    <!-- PAGINA 5 -->
+    <div class="pagina">
+        <img src="5.jpg" alt="">
+    </div>
+
+    <!-- PAGINA 6 -->
+    <div class="pagina">
+        <img src="6.jpg" alt="">
+    </div>
+   <!-- PAGINA 7 -->
+
+    <div class="pagina">
+
+        <img src="1.jpg" alt="">
+
+    </div>
+
+    <div class="botones">
+        <button onclick="anterior()">◀ Anterior</button>
+        <button onclick="siguiente()">Siguiente ▶</button>
+    </div>
+
+    <div class="contador">
+        Página <span id="paginaActual">1</span> de <span id="totalPaginas">9</span>
+    </div>
+
+</div>
+
+<script>
+
+const paginas = document.querySelectorAll('.pagina');
+const paginaActual = document.getElementById('paginaActual');
+const totalPaginas = document.getElementById('totalPaginas');
+
+let actual = 0;
+
+totalPaginas.textContent = paginas.length;
+
+function mostrarPagina(indice){
+
+    paginas.forEach(pagina=>{
+        pagina.classList.remove('activa');
     });
 
-    // Mensajes "Te amo" al tocar
-    function crearMensaje(x, y) {
-      const msg = document.createElement('div');
-      msg.className = 'mensaje';
-      const textos = ['Te amo 💖', 'Eres mi vida 💕', 'Mi cielo 🌹', 'Mi amor eterno 💞',  'PERDON 🥺','Tú y yo siempre ❤️'];
-      msg.textContent = textos[Math.floor(Math.random() * textos.length)];
-      msg.style.left = `${x}px`;
-      msg.style.top = `${y}px`;
-      document.body.appendChild(msg);
-      setTimeout(() => msg.remove(), 2000);
+    paginas[indice].classList.add('activa');
+
+    paginaActual.textContent = indice + 1;
+}
+
+function siguiente(){
+
+    if(actual < paginas.length - 1){
+        actual++;
+        mostrarPagina(actual);
     }
+}
 
-    // Efecto de lluvia de "Te amo"
-    const lluvia = document.getElementById('lluvia');
-    const crearLluvia = () => {
-      for (let i = 0; i < 30; i++) {
-        const gota = document.createElement('div');
-        gota.className = 'gota';
-        gota.textContent = 'TE AMO';
-        gota.style.left = Math.random() * 100 + 'vw';
-        gota.style.animationDuration = 3 + Math.random() * 5 + 's';
-        gota.style.fontSize = 1 + Math.random() * 2 + 'em';
-        lluvia.appendChild(gota);
-        setTimeout(() => gota.remove(), 8000);
-      }
-    };
+function anterior(){
 
-    setInterval(crearLluvia, 1000);
-  </script>
+    if(actual > 0){
+        actual--;
+        mostrarPagina(actual);
+    }
+}
+
+</script>
 
 </body>
 </html>
